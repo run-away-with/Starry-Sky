@@ -36,7 +36,7 @@ body {
   height: 100%;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: auto 1000px auto;
+  grid-template-columns: auto 1200px auto;
 }
 
 @media (prefers-color-scheme: light) {
