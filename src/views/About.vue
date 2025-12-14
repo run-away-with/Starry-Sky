@@ -24,19 +24,19 @@
         <div class="contact-info">
           <div class="contact-item">
             <span class="item-label">邮箱：</span>
-            <span class="item-value">contact@planet-explore.com</span>
+            <span class="item-value">xxxxx</span>
           </div>
           <div class="contact-item">
             <span class="item-label">电话：</span>
-            <span class="item-value">400-123-4567</span>
+            <span class="item-value">xxxxx</span>
           </div>
           <div class="contact-item">
             <span class="item-label">地址：</span>
-            <span class="item-value">北京市海淀区宇宙探索大厦1001室</span>
+            <span class="item-value">xxxxx</span>
           </div>
           <div class="contact-item">
             <span class="item-label">微信公众号：</span>
-            <span class="item-value">行星探索中心</span>
+            <span class="item-value">xxxxx</span>
           </div>
         </div>
 
@@ -95,8 +95,6 @@ const teamMembers = ref([
     
   }
 ])
-
-
 // 表单数据
 const formData = ref({
   name: "",
