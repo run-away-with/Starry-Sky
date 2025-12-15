@@ -1542,9 +1542,6 @@
     .tool-tabs {
       flex-direction: column;
     }
-    .star-map-preview {
-      height: 80px;
-    }
     /* 页脚 */
     .footer-main {
       grid-template-columns: 1fr;
