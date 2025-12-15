@@ -627,6 +627,7 @@
     grid-column: 1/-1;
     position: relative;
     height: 100%;
+    width: 100%;
   }
 
   .header {
@@ -1511,6 +1512,7 @@
     .side {
       grid-row: 3;
       grid-column: 1;
+      width: 800px;
     }
     .footer {
       grid-row: 4;
@@ -1527,17 +1529,17 @@
   }
   /* 移动端 (≤768px) */
   @media (max-width: 768px) {
+    /* main部分 */
+    .planet-information,
+    .planet-encyclopedia {
+      width: 500px;
+    }
     /* 侧边 */
-    .sidebar {
+    .side {
       height: auto;
       position: static;
       margin-top: 20px;
-    }
-    .search-input {
-      padding: 10px 14px;
-    }
-    .search-btn {
-      padding: 10px 16px;
+      width: 500px;
     }
     .tool-tabs {
       flex-direction: column;
