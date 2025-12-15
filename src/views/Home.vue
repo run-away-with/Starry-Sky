@@ -22,7 +22,7 @@
     <div class="main">
       <div class="planet-information">
         <!-- 行星卡片 -->
-        <h2 class="module-title">太阳系</h2>
+        <h2 class="module-title">太阳系 Solar System</h2>
         <div class="scroll-container">
           <div
             v-for="planet in planetList"
@@ -396,10 +396,12 @@
         <div class="link-group">
           <h4 class="link-title">科普资源</h4>
           <ul class="link-list">
-            <li><a href="#">NASA 行星数据库</a></li>
-            <li><a href="#">中国国家天文台</a></li>
-            <li><a href="#">天文观测指南</a></li>
-            <li><a href="#">行星高清影像库</a></li>
+            <li><a href="https://solarsystem.nasa.gov/">NASA 行星数据库</a></li>
+            <li><a href="http://www.nao.cas.cn/">中国国家天文台</a></li>
+            <li>
+              <a href="https://interesting-sky.china-vo.org/">有趣天文奇观</a>
+            </li>
+            <li><a href="https://hubblesite.org/">行星高清影像库</a></li>
           </ul>
         </div>
         <!-- 订阅通知 -->
