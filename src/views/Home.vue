@@ -1,7 +1,6 @@
 <template>
   <div class="home-container">
     <div class="header-wrapper">
-      <div class="header"></div>
       <!-- 仅首页显示的导航栏 -->
       <div class="home-nav">
         <ul>
@@ -630,23 +629,24 @@
     width: 100%;
   }
 
-  .header {
+  .header-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-image: url(src/assets/black-sky.jpg);
     background-size: cover;
-    /* 等比缩放覆盖容器，溢出部分裁剪（不会超出屏幕） */
     background-position: center;
-    box-sizing: border-box;
-
     mask-image: linear-gradient(to bottom, black 70%, rgba(0, 0, 0, 0));
     -webkit-mask-image: linear-gradient(
       to bottom,
       black 70%,
       rgba(0, 0, 0, 0.1)
     );
-
-    border-radius: 20px 20px 0 0;
+    /* 伪元素层级低于导航栏 */
+    z-index: 1;
   }
 
   .home-nav {
@@ -660,6 +660,7 @@
     padding: 5px 40px;
     border-radius: 30px; /* 胶囊形圆角 */
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 2;
   }
 
   .home-nav ul {
