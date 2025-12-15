@@ -90,114 +90,79 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+import { ref } from 'vue';
 
-<<<<<<< HEAD
-// 5人团队数据
+// 5人团队数据（合并冲突：保留完整desc字段，统一代码规范）
 const teamMembers = ref([
   {
-    name: "徐安",
-    role: "组长",
-    desc: "负责团队整体规划和技术架构设计，经验丰富"
+    name: '徐安',
+    role: '组长',
+    
   },
   {
-    name: "王冠清",
-    role: "组员",
-    desc: "专注前端开发，擅长Vue生态和交互设计"
+    name: '王冠清',
+    role: '组员',
+    
   },
   {
-    name: "王沐阳",
-    role: "组员",
-    desc: "负责后端接口开发和数据处理，精通数据库"
+    name: '王沐阳',
+    role: '组员',
+    
   },
   {
-    name: "王睿毅",
-    role: "组员",
-    desc: "专注测试和质量保障，确保项目稳定运行"
+    name: '王睿毅',
+    role: '组员',
+   
   },
   {
-    name: "朱卫东",
-    role: "组员",
-    desc: "负责运维部署，保障系统高可用和性能优化"
+    name: '朱卫东',
+    role: '组员',
+   
   }
-])
-// 表单数据
-const formData = ref({
-  name: "",
-  email: "",
-  message: ""
-})
-=======
-  // 5人团队数据
-  const teamMembers = ref([
-    {
-      name: '徐安',
-      role: '组长'
-    },
-    {
-      name: '王冠清',
-      role: '组员'
-    },
-    {
-      name: '王沐阳',
-      role: '组员'
-    },
-    {
-      name: '王睿毅',
-      role: '组员'
-    },
-    {
-      name: '朱卫东',
-      role: '组员'
-    }
-  ]);
-  // 表单数据
-  const formData = ref({
-    name: '',
-    email: '',
-    message: ''
-  });
->>>>>>> 3669ab4b80ce2d6628a5a8f6842308fde30dab1b
+]);
 
-  // 表单提交处理
-  const handleSubmit = () => {
-    alert(
-      `感谢${formData.value.name}的留言，我们会尽快通过${formData.value.email}回复您！`
-    );
-    // 重置表单
-    formData.value = { name: '', email: '', message: '' };
-  };
+// 表单数据（统一代码规范：单引号、分号结尾）
+const formData = ref({
+  name: '',
+  email: '',
+  message: ''
+});
+
+// 表单提交处理
+const handleSubmit = () => {
+  alert(
+    `感谢${formData.value.name}的留言，我们会尽快通过${formData.value.email}回复您！`
+  );
+  // 重置表单
+  formData.value = { name: '', email: '', message: '' };
+};
 </script>
 
 <style scoped>
-<<<<<<< HEAD
-/* 1. 全局重置：彻底消除滚动条和溢出 */
+/* 全局重置：统一盒模型 */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* 2. 根容器：强制占满视口，无滚动条，内容自适应 */
+/* 根容器：全屏背景，自适应内容高度（修复overflow:hidden导致的内容截断） */
 .about-us {
   display: grid;
-  gap: 3rem; /* 减小间距避免纵向溢出 */
-  padding: 2rem 1.5rem; /* 适度内边距，避免触达视口边缘 */
-  height: 100vh; /* 固定高度=视口高度，消除纵向滚动 */
-  width: 100vw; /* 固定宽度=视口宽度，消除横向滚动 */
+  gap: 3rem;
+  padding: 2rem 1.5rem;
+  min-height: 100vh; /* 最小高度占满视口，内容超出时自动扩展 */
+  width: 100vw;
   max-width: 100vw;
-  max-height: 100vh;
   margin: 0;
   background-color: #1a2435;
-  overflow: hidden; /* 核心：隐藏所有溢出，消除滚动条 */
-  /* 内容溢出时自动适配（可选） */
-  grid-template-rows: auto 1fr;
-  align-content: center; /* 垂直居中，避免内容顶边/底边溢出 */
+  overflow-x: hidden; /* 仅隐藏横向滚动，纵向允许滚动 */
+  align-content: start; /* 内容从上到下排列，避免居中导致的截断 */
 }
 
 /* 标题样式：居中+白色 */
 .section-title {
-  font-size: 2rem; /* 减小字号避免占高过多 */
+  font-size: 2rem;
   color: #ffffff;
   margin: 0 auto 1.5rem;
   border-bottom: 2px solid #3498db;
@@ -207,21 +172,20 @@ const formData = ref({
   width: fit-content;
 }
 
-/* 团队部分：适配视口高度 */
+/* 团队部分：适配布局 */
 .team-section {
   display: grid;
   place-items: center;
   gap: 1rem;
   width: 100%;
-  padding: 0; /* 移除额外padding避免溢出 */
-  max-height: calc(50% - 1.5rem); /* 分配高度，避免纵向溢出 */
+  padding: 0;
 }
 
 .team-cards {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  gap: 0.8rem; /* 减小卡片间距 */
+  gap: 0.8rem;
   width: 100%;
   max-width: 100%;
   flex-wrap: wrap;
@@ -229,10 +193,10 @@ const formData = ref({
 
 .team-card {
   flex: 1;
-  min-width: 120px; /* 进一步减小最小宽度 */
-  max-width: 180px; /* 减小最大宽度 */
+  min-width: 120px;
+  max-width: 180px;
   background-color: #ffffff;
-  padding: 1rem 0.8rem; /* 减小内边距 */
+  padding: 1rem 0.8rem;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
@@ -244,7 +208,7 @@ const formData = ref({
 }
 
 .card-avatar img {
-  width: 70px; /* 减小头像尺寸 */
+  width: 70px;
   height: 70px;
   border-radius: 50%;
   object-fit: cover;
@@ -252,7 +216,7 @@ const formData = ref({
   border: 3px solid #3498db;
 }
 
-/* 团队卡片文字：减小字号 */
+/* 团队卡片文字样式 */
 .card-name {
   font-size: 1rem;
   color: #000000;
@@ -273,23 +237,21 @@ const formData = ref({
   font-size: 0.8rem;
 }
 
-/* 联系部分：分配剩余高度 */
+/* 联系部分布局 */
 .contact-wrap {
   width: 100%;
   display: grid;
   gap: 1rem;
-  padding: 0; /* 移除额外padding */
-  max-height: calc(50% - 1.5rem); /* 分配高度 */
+  padding: 0;
 }
 
-/* 核心：1:1等宽布局，无溢出 */
+/* 核心：1:1等宽布局 */
 .contact-content {
   display: flex;
-  gap: 1.5rem; /* 减小间距 */
+  gap: 1.5rem;
   width: 100%;
   align-items: stretch;
   max-width: 100%;
-  height: 100%; /* 高度自适应父容器 */
 }
 
 /* 联系我们：适配高度 */
@@ -297,58 +259,55 @@ const formData = ref({
   flex: 1;
   display: grid;
   gap: 1.2rem;
-  font-size: 1.2rem; /* 整体调大联系方式区域基础字号 */
+  font-size: 1.2rem;
   background-color: rgba(255, 255, 255, 0.1);
-  padding: 1.2rem; /* 减小内边距 */
+  padding: 1.2rem;
   border-radius: 10px;
   width: 100%;
-  min-width: 0; /* 关键：移除最小宽度限制，允许极致压缩 */
-  height: 100%;
-  align-content: center; /* 内容垂直居中 */
+  min-width: 0; /* 允许极致压缩 */
+  align-content: center;
 }
 
-/* 核心修改：确保"微信公众号"不换行 */
+/* 联系方式项：单行显示，避免换行 */
 .contact-item {
-  display: flex; /* 改为flex布局，强制单行 */
-  align-items: center; /* 垂直居中 */
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
-  white-space: nowrap; /* 禁止所有文字换行 */
+  white-space: nowrap;
 }
 
-/* 标签固定宽度，确保值区域有足够空间 */
 .item-label {
   color: #ffffff;
   font-weight: 600;
-  font-size: 1.15rem; /* 从0.9rem调大到1.15rem */
-  flex: 0 0 100px; /* 固定宽度，不收缩不扩展 */
-  text-align: right; /* 右对齐，视觉更整洁 */
+  font-size: 1.15rem;
+  flex: 0 0 100px;
+  text-align: right;
 }
 
 .item-value {
   color: #ffffff;
   opacity: 0.95;
-  font-size: 1.15rem; /* 从0.9rem调大到1.15rem，与标签一致 */
-  flex: 1; /* 剩余空间自适应 */
-  white-space: nowrap; /* 禁止值换行 */
-  overflow: hidden; /* 超出部分隐藏（可选，避免极端情况溢出） */
-  text-overflow: ellipsis; /* 超出显示省略号，提升体验 */
+  font-size: 1.15rem;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* 留言咨询：适配高度 */
 .contact-form {
   flex: 1;
   background-color: rgba(255, 255, 255, 0.1);
-  padding: 1.2rem; /* 减小内边距 */
+  padding: 1.2rem;
   border-radius: 10px;
   width: 100%;
-  min-width: 0; /* 关键：移除最小宽度限制 */
-  height: 100%;
+  min-width: 0;
   display: grid;
-  grid-template-rows: auto 1fr auto; /* 表单内容自适应高度 */
+  grid-template-rows: auto 1fr auto;
 }
 
 .form-title {
-  font-size: 1.2rem; /* 减小字号 */
+  font-size: 1.2rem;
   color: #ffffff;
   margin-bottom: 1rem;
   text-align: center;
@@ -357,7 +316,7 @@ const formData = ref({
 .form-group {
   display: grid;
   gap: 0.5rem;
-  margin-bottom: 1rem; /* 减小间距 */
+  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -369,14 +328,14 @@ const formData = ref({
 
 .form-group input,
 .form-group textarea {
-  padding: 0.7rem; /* 减小内边距 */
+  padding: 0.7rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  font-size: 0.85rem; /* 减小字号 */
+  font-size: 0.85rem;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.08);
   color: #ffffff;
-  resize: none; /* 禁止textarea拉伸，避免溢出 */
+  resize: none; /* 禁止拉伸 */
 }
 
 /* 输入框占位符颜色 */
@@ -398,9 +357,9 @@ const formData = ref({
   background-color: #3498db;
   color: white;
   border: none;
-  padding: 0.7rem 2rem; /* 减小按钮尺寸 */
+  padding: 0.7rem 2rem;
   border-radius: 8px;
-  font-size: 0.9rem; /* 减小字号 */
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
   display: block;
@@ -411,7 +370,7 @@ const formData = ref({
   background-color: #2980b9;
 }
 
-/* 响应式适配：极致适配小屏 */
+/* 响应式适配：平板及以下 */
 @media (max-width: 768px) {
   .about-us {
     padding: 1rem 0.8rem;
@@ -420,22 +379,18 @@ const formData = ref({
   .contact-content {
     flex-direction: column;
     gap: 1rem;
-    height: 100%;
   }
   .contact-info, .contact-form {
     flex: none;
     width: 100%;
     height: auto;
-    min-height: unset;
   }
-  /* 响应式下联系方式字体稍调，但仍保持较大尺寸 */
   .item-label, .item-value {
     font-size: 1.1rem;
   }
   .contact-info {
     font-size: 1.1rem;
   }
-  /* 响应式下调整标签宽度，适配小屏 */
   .item-label {
     flex: 0 0 90px;
   }
@@ -444,58 +399,10 @@ const formData = ref({
   }
   .team-card {
     width: calc(50% - 0.3rem);
-=======
-  /* 核心：占满整行宽度（100vw）+ 全屏背景 */
-  .about-us {
-    display: grid;
-    gap: 5rem;
-    padding: 3rem 2rem;
-    min-height: 100vh; /* 全屏背景高度 */
-    width: 100vw; /* 占满整行宽度（100%视口） */
-    max-width: none; /* 移除最大宽度限制 */
-    margin: 0; /* 清除居中边距 */
-    background-color: #1a2435;
-    overflow-x: hidden;
-  }
-
-  /* 标题样式：居中+白色 */
-  .section-title {
-    font-size: 2.2rem;
-    color: #ffffff;
-    margin: 0 auto 2rem;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.6rem;
-    display: block;
-    text-align: center;
-    width: fit-content;
-  }
-
-  /* 团队部分：占满整行的单行布局 */
-  .team-section {
-    display: grid;
-    place-items: center;
-    gap: 1.5rem;
-    width: 100%;
-    padding: 0 0.5rem;
-  }
-
-  .team-cards {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1.2rem;
-    width: 100%;
->>>>>>> 3669ab4b80ce2d6628a5a8f6842308fde30dab1b
-    max-width: none;
-    padding: 0.8rem 0.5rem;
-  }
-<<<<<<< HEAD
-  .section-title {
-    font-size: 1.6rem;
   }
 }
 
-/* 超小屏适配 */
+/* 超小屏适配（手机） */
 @media (max-width: 480px) {
   .team-card {
     width: 100%;
@@ -504,213 +411,11 @@ const formData = ref({
     padding: 0.8rem 0.5rem;
     gap: 1.5rem;
   }
-  .team-section, .contact-wrap {
-    max-height: none;
-  }
-  /* 超小屏联系方式字体保持清晰 */
   .item-label, .item-value {
     font-size: 1.05rem;
   }
-  /* 超小屏进一步调整标签宽度 */
   .item-label {
     flex: 0 0 85px;
-=======
-
-  .team-card {
-    flex: 1;
-    min-width: 160px;
-    max-width: 200px;
-    background-color: #ffffff;
-    padding: 1.5rem 1rem;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
->>>>>>> 3669ab4b80ce2d6628a5a8f6842308fde30dab1b
   }
-
-  .team-card:hover {
-    transform: translateY(-6px);
-  }
-
-  .card-avatar img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 1rem;
-    border: 3px solid #3498db;
-  }
-
-  /* 团队卡片文字（黑色+适配字号） */
-  .card-name {
-    font-size: 1.1rem;
-    color: #000000;
-    margin-bottom: 0.6rem;
-    font-weight: 600;
-  }
-
-  .card-role {
-    color: #000000;
-    font-weight: 500;
-    margin-bottom: 0.8rem;
-    font-size: 1rem;
-  }
-
-  .card-desc {
-    color: #000000;
-    line-height: 1.6;
-    font-size: 0.9rem;
-  }
-
-  /* 联系+留言 同排容器：占满整行 */
-  .contact-wrap {
-    width: 100%;
-    display: grid;
-    gap: 1.5rem;
-    padding: 0 0.5rem;
-  }
-
-  /* 核心：1:1等宽布局 */
-  .contact-content {
-    display: flex;
-    gap: 2rem; /* 中间间距 */
-    width: 100%;
-    align-items: stretch; /* 两个模块高度对齐 */
-    max-width: none;
-  }
-
-  /* 联系我们：严格占50%宽度（扣除间距后） */
-  .contact-info {
-    flex: 1; /* 等宽核心：flex:1 平分宽度 */
-    display: grid;
-    gap: 1.5rem;
-    font-size: 1.1rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 1.8rem;
-    border-radius: 10px;
-    width: 100%;
-    min-width: 280px; /* 最小宽度，避免小屏挤压 */
-  }
-
-  .contact-item {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 0.6rem;
-  }
-
-  /* 联系方式文字（白色） */
-  .item-label {
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .item-value {
-    color: #ffffff;
-    opacity: 0.95;
-    font-size: 1rem;
-  }
-
-  /* 留言咨询：严格占50%宽度（扣除间距后） */
-  .contact-form {
-    flex: 1; /* 等宽核心：flex:1 平分宽度 */
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 1.8rem;
-    border-radius: 10px;
-    width: 100%;
-    min-width: 280px; /* 最小宽度，避免小屏挤压 */
-  }
-
-  .form-title {
-    font-size: 1.4rem;
-    color: #ffffff;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-
-  .form-group {
-    display: grid;
-    gap: 0.6rem;
-    margin-bottom: 1.5rem;
-    width: 100%;
-  }
-
-  .form-group label {
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 1rem;
-  }
-
-  .form-group input,
-  .form-group textarea {
-    padding: 0.9rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-  }
-
-  /* 输入框占位符颜色 */
-  .form-group input::placeholder,
-  .form-group textarea::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  /* 输入框聚焦样式 */
-  .form-group input:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-    background-color: rgba(255, 255, 255, 0.12);
-  }
-
-  .submit-btn {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 0.9rem 2.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: block;
-    margin: 0 auto;
-    margin-top: 1rem;
-  }
-
-  .submit-btn:hover {
-    background-color: #2980b9;
-  }
-
-  /* 响应式适配：小屏自动换行，仍保持1:1（换行后各占100%） */
-  @media (max-width: 768px) {
-    .about-us {
-      padding: 1.5rem 1rem;
-      gap: 3rem;
-    }
-    .contact-content {
-      flex-direction: column; /* 小屏换行 */
-      gap: 1.5rem;
-    }
-    .contact-info,
-    .contact-form {
-      flex: none;
-      width: 100%; /* 换行后各占100%，视觉上仍1:1 */
-      min-width: unset;
-    }
-    .team-cards {
-      flex-wrap: wrap;
-    }
-    .team-card {
-      width: calc(50% - 0.6rem);
-      max-width: none;
-    }
-    .contact-item {
-      grid-template-columns: 1fr;
-    }
-  }
+}
 </style>
