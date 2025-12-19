@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
-import Planet from '../views/Planet.vue';
 import About from '../views/About.vue';
 import More from '../views/More.vue';
 import Start from '../views/Start.vue';
+import Profile from '../views/Profile.vue';
 import NotFound from '../views/NotFound.vue';
 
 // 路由规则
@@ -30,7 +30,7 @@ const routes = [
   {
     path: '/planet/:id',
     name: 'Planet',
-    component: Planet,
+    component: () => import('../views/Planet.vue'),
     meta: { title: '行星页面' }
   },
   {
@@ -44,6 +44,12 @@ const routes = [
     name: 'More',
     component: More,
     meta: { title: '更多内容' }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: { title: '用户资料' }
   },
   {
     path: '/:pathMatch(.*)*',

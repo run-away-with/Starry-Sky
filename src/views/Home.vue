@@ -1,6 +1,7 @@
 <template>
   <div class="home-container">
     <div class="header-wrapper">
+      <HeaderNav />
       <!-- 仅首页显示的导航栏 -->
       <div class="home-nav">
         <ul>

@@ -1,5 +1,6 @@
 <template>
   <div class="about-us">
+    <HeaderNav />
     <!-- 团队介绍部分 -->
     <section class="team-section">
       <h2 class="section-title">我们的团队</h2>
@@ -91,6 +92,7 @@
 
 <script setup>
   import { ref } from 'vue';
+  import HeaderNav from '../components/HeaderNav.vue';
 
   // 5人团队数据（合并冲突：保留完整desc字段，统一代码规范）
   const teamMembers = ref([

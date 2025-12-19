@@ -1,7 +1,7 @@
 const planetList = [
   {
     name: '太阳',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Sun.jpg',
     type: '恒星',
     desc: '太阳是太阳系的中心恒星,占太阳系总质量的99.86%，通过核聚变持续释放光和热，是地球生命赖以生存的能量来源。',
     habitat: '太阳系中心',
@@ -17,7 +17,7 @@ const planetList = [
   },
   {
     name: '水星',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Mercury.jpg',
     type: '类地行星',
     desc: '水星是太阳系中最靠近太阳的行星,也是八大行星中最小的一颗,几乎无大气层,导致表面昼夜温差超过600℃。',
     habitat: '太阳系内侧(第1颗行星)',
@@ -31,7 +31,7 @@ const planetList = [
   },
   {
     name: '金星',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Venus.jpg',
     type: '类地行星',
     desc: '金星是太阳系中第二颗行星，也被称为“启明星/长庚星”，拥有浓厚的二氧化碳大气层，产生极强的温室效应，是太阳系中最热的行星。',
     habitat: '太阳系内侧(第2颗行星)',
@@ -45,7 +45,7 @@ const planetList = [
   },
   {
     name: '地球',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Earth.jpg',
     type: '类地行星',
     desc: '地球是太阳系中第三颗行星,是唯一已知存在液态水和生命的天体,拥有保护生命的磁场和大气层,表面71%被海洋覆盖。',
     habitat: '太阳系宜居带(第3颗行星)',
@@ -59,7 +59,7 @@ const planetList = [
   },
   {
     name: '火星',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Mars.jpg',
     type: '类地行星',
     desc: '火星被称为“红色星球”，因其表面富含氧化铁（铁锈）而呈现橘红色，拥有稀薄的二氧化碳大气层，两极有干冰/水冰组成的极冠。',
     habitat: '太阳系外侧(第4颗行星)',
@@ -74,7 +74,7 @@ const planetList = [
   },
   {
     name: '木星',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Jupiter.jpg',
     type: '气态巨行星',
     desc: '木星是太阳系中体积和质量最大的行星,质量是其他七大行星总和的2.5倍，主要由氢和氦组成，拥有著名的“大红斑”风暴系统。',
     habitat: '太阳系外侧(第5颗行星)',
@@ -89,7 +89,7 @@ const planetList = [
   },
   {
     name: '土星',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Saturn.jpg',
     desc: '土星是太阳系第六颗行星，以其壮观的冰质环系统闻名，是密度最小的行星（密度比水小），同样以氢和氦为主要成分。',
     type: '气态巨行星',
     habitat: '太阳系外侧(第6颗行星)',

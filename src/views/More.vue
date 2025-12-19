@@ -1,5 +1,6 @@
 <template>
   <div class="more-container">
+    <HeaderNav />
     <!-- 将行星的照片全部列出，点击照片可以跳转至对应页面 -->
     <h1>更多行星信息</h1>
     <div class="planet-list">

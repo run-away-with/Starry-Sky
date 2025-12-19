@@ -1,4 +1,5 @@
 <template>
+  <HeaderNav />
   <div v-if="currentPlanet" class="planet-detail">
     <!-- 返回首页按钮 -->
     <button @click="router.push('/')">返回首页</button>
@@ -28,6 +29,7 @@
   import { useRoute, useRouter } from 'vue-router';
   import { ref, onMounted } from 'vue';
   import { planetList } from '../assets/planetdata.js';
+  import HeaderNav from '../components/HeaderNav.vue';
 
   const route = useRoute();
   const router = useRouter();
