@@ -1,7 +1,6 @@
 <template>
   <div class="home-container">
     <div class="header-wrapper">
-      <div class="header"></div>
       <!-- 仅首页显示的导航栏 -->
       <div class="home-nav">
         <ul>
@@ -23,7 +22,7 @@
     <div class="main">
       <div class="planet-information">
         <!-- 行星卡片 -->
-        <h2 class="module-title">太阳系</h2>
+        <h2 class="module-title">太阳系 Solar System</h2>
         <div class="scroll-container">
           <div
             v-for="planet in planetList"
@@ -397,10 +396,12 @@
         <div class="link-group">
           <h4 class="link-title">科普资源</h4>
           <ul class="link-list">
-            <li><a href="#">NASA 行星数据库</a></li>
-            <li><a href="#">中国国家天文台</a></li>
-            <li><a href="#">天文观测指南</a></li>
-            <li><a href="#">行星高清影像库</a></li>
+            <li><a href="https://solarsystem.nasa.gov/">NASA 行星数据库</a></li>
+            <li><a href="http://www.nao.cas.cn/">中国国家天文台</a></li>
+            <li>
+              <a href="https://interesting-sky.china-vo.org/">有趣天文奇观</a>
+            </li>
+            <li><a href="https://hubblesite.org/">行星高清影像库</a></li>
           </ul>
         </div>
         <!-- 订阅通知 -->
@@ -627,25 +628,27 @@
     grid-column: 1/-1;
     position: relative;
     height: 100%;
+    width: 100%;
   }
 
-  .header {
+  .header-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-image: url(src/assets/black-sky.jpg);
     background-size: cover;
-    /* 等比缩放覆盖容器，溢出部分裁剪（不会超出屏幕） */
     background-position: center;
-    box-sizing: border-box;
-
     mask-image: linear-gradient(to bottom, black 70%, rgba(0, 0, 0, 0));
     -webkit-mask-image: linear-gradient(
       to bottom,
       black 70%,
       rgba(0, 0, 0, 0.1)
     );
-
-    border-radius: 20px 20px 0 0;
+    /* 伪元素层级低于导航栏 */
+    z-index: 1;
   }
 
   .home-nav {
@@ -659,6 +662,7 @@
     padding: 5px 40px;
     border-radius: 30px; /* 胶囊形圆角 */
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 2;
   }
 
   .home-nav ul {
@@ -1491,5 +1495,74 @@
   }
   .bottom-link:hover {
     color: #ffd700;
+  }
+
+  /* 响应式适配 */
+  /* 平板端 (768px - 1024px) */
+  @media (max-width: 1024px) {
+    .home-container {
+      grid-column: 2;
+      grid-template-columns: 1fr;
+      grid-template-rows: 500px auto auto auto;
+      justify-items: center;
+    }
+    .header-wrapper {
+      grid-row: 1;
+    }
+    .main {
+      grid-row: 2;
+    }
+    .side {
+      grid-row: 3;
+      grid-column: 1;
+      width: 800px;
+    }
+    .footer {
+      grid-row: 4;
+    }
+    .footer-main {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .footer-subscribe {
+      grid-column: 1 / -1;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  /* 移动端 (≤768px) */
+  @media (max-width: 768px) {
+    /* main部分 */
+    .planet-information,
+    .planet-encyclopedia {
+      width: 500px;
+    }
+    /* 侧边 */
+    .side {
+      height: auto;
+      position: static;
+      margin-top: 20px;
+      width: 500px;
+    }
+    .tool-tabs {
+      flex-direction: column;
+    }
+    /* 页脚 */
+    .footer-main {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .footer-subscribe {
+      width: 100%;
+    }
+    .footer-bottom {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+    .bottom-right {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
   }
 </style>
