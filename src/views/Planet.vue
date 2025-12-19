@@ -4,7 +4,11 @@
     <button @click="router.push('/')">返回首页</button>
     <!-- 渲染当前动物的内容 -->
     <h1>{{ currentPlanet.name }}</h1>
-    <!-- <img :src="currentPlanet.img" :alt="currentPlanet.name" class="detail-img" /> -->
+    <img
+      :src="currentPlanet.img"
+      :alt="currentPlanet.name"
+      class="detail-img"
+    />
     <div class="detail-content">
       <p>{{ currentPlanet.desc }}</p>
       <p>
