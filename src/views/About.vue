@@ -12,7 +12,7 @@
         >
           <div class="card-avatar">
             <img
-              :src="`https://picsum.photos/id/${100 + index}/100/100`"
+              :src="`/src/assets/team/member${index + 1}.png`"
               :alt="member.name"
             />
           </div>
