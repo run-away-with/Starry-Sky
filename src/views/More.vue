@@ -12,18 +12,27 @@
         <!-- 轮播图 -->
         <div class="carousel">
           <img
+            v-if="planetImages[planet.id]?.length"
             :src="planetImages[planet.id][currentIndexMap[planet.id]]"
             :alt="planet.name"
             class="planet-image"
           />
+          <div
+            v-else
+            class="image-placeholder"
+          >
+            No Image
+          </div>
 
           <button
+            v-if="planetImages[planet.id]?.length > 1"
             class="nav prev"
             @click.stop="prev(planet.id)"
           >
             ‹
           </button>
           <button
+            v-if="planetImages[planet.id]?.length > 1"
             class="nav next"
             @click.stop="next(planet.id)"
           >
@@ -40,10 +49,10 @@
 <script setup>
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import planetData from '@/data/planetdata.json';
+import planetData from '@/data/planetdata';
 
 /* ======================
-   原有逻辑
+   路由
 ====================== */
 const router = useRouter();
 const planets = planetData;
@@ -54,13 +63,9 @@ const goToPlanet = (id) => {
 
 /* ======================
    自动读取 assets/planets
+   目录结构要求：
+   src/assets/planets/{id}/xxx.png
 ====================== */
-
-/**
- * 读取所有星球图片
- * 示例 key：
- * /src/assets/planets/earth/1.png
- */
 const rawImages = import.meta.glob(
   '@/assets/planets/*/*',
   {
@@ -69,32 +74,23 @@ const rawImages = import.meta.glob(
   }
 );
 
-/**
- * 按星球 id 整理图片
- * {
- *   earth: [img1, img2],
- *   mars: [img1]
- * }
- */
 const planetImages = reactive({});
+const currentIndexMap = reactive({});
 
 planets.forEach((planet) => {
-  planetImages[planet.id] = Object.entries(rawImages)
+  const images = Object.entries(rawImages)
     .filter(([path]) =>
       path.includes(`/planets/${planet.id}/`)
     )
     .map(([, img]) => img);
-});
 
-/* ======================
-   轮播状态
-====================== */
-const currentIndexMap = reactive({});
-
-planets.forEach((planet) => {
+  planetImages[planet.id] = images;
   currentIndexMap[planet.id] = 0;
 });
 
+/* ======================
+   轮播控制
+====================== */
 const next = (id) => {
   const length = planetImages[id].length;
   currentIndexMap[id] =
@@ -109,7 +105,7 @@ const prev = (id) => {
 </script>
 
 <style scoped>
-/* 页面容器（符合第六条） */
+/* 页面容器（第六条要求） */
 .page-container {
   display: grid;
   grid-column: 2;
@@ -124,14 +120,14 @@ const prev = (id) => {
   text-align: center;
 }
 
-/* 星球列表 */
+/* 星球网格 */
 .planet-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 32px;
 }
 
-/* 星球卡片 */
+/* 卡片 */
 .planet-card {
   display: grid;
   row-gap: 16px;
@@ -140,9 +136,7 @@ const prev = (id) => {
   background-color: #f6f6f6;
   border-radius: 18px;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .planet-card:hover {
@@ -150,7 +144,7 @@ const prev = (id) => {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* 轮播区域 */
+/* 轮播 */
 .carousel {
   position: relative;
   width: 100%;
@@ -165,7 +159,18 @@ const prev = (id) => {
   border-radius: 50%;
 }
 
-/* 左右按钮 */
+/* 占位 */
+.image-placeholder {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #ddd;
+  display: grid;
+  place-items: center;
+  color: #666;
+}
+
+/* 导航按钮 */
 .nav {
   position: absolute;
   top: 50%;
