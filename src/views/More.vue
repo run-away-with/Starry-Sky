@@ -25,7 +25,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import planetList from '../assets/planetdata.js'
+import {planetList} from '../assets/planetdata.js'
 
 const router = useRouter()
 const current = ref(0)
