@@ -104,7 +104,7 @@ const planetList = [
   },
   {
     name: '天王星',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Uranus.jpg',
     type: '冰巨行星',
     desc: '天王星是太阳系第七颗行星,是唯一“躺着”自转的行星(自转轴倾角98°),主要由冰质(水、氨、甲烷)和气体组成，呈现独特的蓝绿色。',
     habitat: '太阳系外侧(第7颗行星)',
@@ -118,7 +118,7 @@ const planetList = [
   },
   {
     name: '海王星',
-    img: 'src/assets/starry-sky-background.jpg',
+    img: 'src/assets/planets/Neptune.jpg',
     type: '冰巨行星',
     desc: '海王星是太阳系第八颗行星,也是最远的行星,拥有太阳系最强的风暴(风速达2100千米/小时)，甲烷大气层使其呈现深蓝色。',
     habitat: '太阳系外侧(第8颗行星)',
