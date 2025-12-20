@@ -12,6 +12,7 @@
         <!-- 轮播图 -->
         <div class="carousel">
           <img
+            v-if="planetImages[planet.id]?.length"
             :src="planetImages[planet.id][currentIndexMap[planet.id]]"
             :alt="planet.name"
             class="planet-image"
@@ -19,6 +20,20 @@
 
           <button class="nav prev" @click.stop="prev(planet.id)">‹</button>
           <button class="nav next" @click.stop="next(planet.id)">›</button>
+          <button
+            v-if="planetImages[planet.id]?.length > 1"
+            class="nav prev"
+            @click.stop="prev(planet.id)"
+          >
+            ‹
+          </button>
+          <button
+            v-if="planetImages[planet.id]?.length > 1"
+            class="nav next"
+            @click.stop="next(planet.id)"
+          >
+            ›
+          </button>
         </div>
 
         <h2 class="planet-name">{{ planet.name }}</h2>
@@ -44,6 +59,8 @@
 
   /* ======================
    自动读取 assets/planets
+   目录结构要求：
+   src/assets/planets/{id}/xxx.png
 ====================== */
 
   /**
@@ -73,6 +90,8 @@
 
   /* ======================
    轮播状态
+/* ======================
+   轮播控制
 ====================== */
   const currentIndexMap = reactive({});
 
