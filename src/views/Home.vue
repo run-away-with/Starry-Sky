@@ -639,7 +639,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(src/assets/black-sky.jpg);
+    background-image: url(src/assets/solar-system-background.jpeg);
     background-size: cover;
     background-position: center;
     mask-image: linear-gradient(to bottom, black 70%, rgba(0, 0, 0, 0));
