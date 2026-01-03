@@ -1,5 +1,6 @@
 <template>
   <div class="about-us">
+    <HeaderNav />
     <!-- 团队介绍部分 -->
     <section class="team-section">
       <!-- 调整标题样式类名+文案，匹配导航栏风格 -->
@@ -94,6 +95,7 @@
 
 <script setup>
   import { ref } from 'vue';
+  import HeaderNav from '../components/HeaderNav.vue';
 
   // 5人团队数据（补充desc字段，完善信息）
   const teamMembers = ref([
