@@ -2,6 +2,7 @@
   <div class="about-us">
     <!-- 团队介绍部分 -->
     <section class="team-section">
+      <!-- 调整标题样式类名+文案，匹配导航栏风格 -->
       <h2 class="section-title">我们的团队</h2>
       <div class="team-cards">
         <!-- 5名团队成员卡片 -->
@@ -25,6 +26,7 @@
 
     <!-- 联系+留言 同排容器（1:1等宽） -->
     <section class="contact-wrap">
+      <!-- 调整标题样式类名+文案，匹配导航栏风格 -->
       <h2 class="section-title">联系我们</h2>
       <div class="contact-content">
         <!-- 联系我们部分：占50%宽度 -->
@@ -49,6 +51,7 @@
 
         <!-- 留言咨询部分：占50%宽度 -->
         <div class="contact-form">
+          <!-- 调整子标题样式，匹配导航栏的浅色+发光风格 -->
           <h3 class="form-title">留言咨询</h3>
           <form @submit.prevent="handleSubmit">
             <div class="form-group">
@@ -92,27 +95,32 @@
 <script setup>
   import { ref } from 'vue';
 
-  // 5人团队数据（合并冲突：保留完整desc字段，统一代码规范）
+  // 5人团队数据（补充desc字段，完善信息）
   const teamMembers = ref([
     {
       name: '徐安',
-      role: '组长'
+      role: '组长',
+    
     },
     {
       name: '王冠清',
-      role: '组员'
+      role: '组员',
+     
     },
     {
       name: '王沐阳',
-      role: '组员'
+      role: '组员',
+     
     },
     {
       name: '王睿毅',
-      role: '组员'
+      role: '组员',
+    
     },
     {
       name: '朱卫东',
-      role: '组员'
+      role: '组员',
+    
     }
   ]);
 
@@ -145,7 +153,8 @@
   .about-us {
     display: grid;
     gap: 3rem;
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.5rem 2rem 1.5rem; /* 适配固定导航栏，增加顶部内边距 */
+    padding-top: 80px; /* 给顶部固定导航栏留出空间 */
     min-height: 100vh; /* 最小高度占满视口，内容超出时自动扩展 */
     width: 100vw;
     max-width: 100vw;
@@ -155,16 +164,24 @@
     align-content: start; /* 内容从上到下排列，避免居中导致的截断 */
   }
 
-  /* 标题样式：居中+白色 */
+  /* 标题样式：匹配导航栏的蓝色发光风格 + 居中+白色 */
   .section-title {
     font-size: 2rem;
-    color: #ffffff;
+    color: #64b5f6; /* 匹配导航栏主色调 */
+    text-shadow: 0 0 10px rgba(100, 181, 246, 0.8); /* 增加导航栏同款发光效果 */
     margin: 0 auto 1.5rem;
-    border-bottom: 2px solid #3498db;
+    border-bottom: 2px solid #64b5f6;
     padding-bottom: 0.5rem;
     display: block;
     text-align: center;
     width: fit-content;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  /* 标题hover效果，匹配导航栏交互 */
+  .section-title:hover {
+    color: #90caf9;
   }
 
   /* 团队部分：适配布局 */
@@ -208,7 +225,7 @@
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 0.8rem;
-    border: 3px solid #3498db;
+    border: 3px solid #64b5f6; /* 匹配导航栏主色调 */
   }
 
   /* 团队卡片文字样式 */
@@ -220,14 +237,14 @@
   }
 
   .card-role {
-    color: #000000;
+    color: #64b5f6; /* 角色文字用主色调突出 */
     font-weight: 500;
     margin-bottom: 0.6rem;
     font-size: 0.9rem;
   }
 
   .card-desc {
-    color: #000000;
+    color: #666666;
     line-height: 1.5;
     font-size: 0.8rem;
   }
@@ -272,11 +289,12 @@
   }
 
   .item-label {
-    color: #ffffff;
+    color: #64b5f6; /* 标签用主色调突出，匹配导航栏 */
     font-weight: 600;
     font-size: 1.15rem;
     flex: 0 0 100px;
     text-align: right;
+    text-shadow: 0 0 5px rgba(100, 181, 246, 0.5); /* 增加轻微发光 */
   }
 
   .item-value {
@@ -301,11 +319,14 @@
     grid-template-rows: auto 1fr auto;
   }
 
+  /* 表单标题：匹配导航栏的发光风格 */
   .form-title {
     font-size: 1.2rem;
-    color: #ffffff;
+    color: #64b5f6;
+    text-shadow: 0 0 8px rgba(100, 181, 246, 0.8);
     margin-bottom: 1rem;
     text-align: center;
+    font-weight: 600;
   }
 
   .form-group {
@@ -316,7 +337,7 @@
   }
 
   .form-group label {
-    color: #ffffff;
+    color: #e0e0ff; /* 匹配导航栏文字颜色 */
     font-weight: 500;
     font-size: 0.9rem;
   }
@@ -324,13 +345,14 @@
   .form-group input,
   .form-group textarea {
     padding: 0.7rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(100, 181, 246, 0.3); /* 边框用主色调 */
     border-radius: 8px;
     font-size: 0.85rem;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.08);
     color: #ffffff;
     resize: none; /* 禁止拉伸 */
+    transition: all 0.3s ease;
   }
 
   /* 输入框占位符颜色 */
@@ -339,36 +361,41 @@
     color: rgba(255, 255, 255, 0.6);
   }
 
-  /* 输入框聚焦样式 */
+  /* 输入框聚焦样式：强化主色调效果 */
   .form-group input:focus,
   .form-group textarea:focus {
     outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+    border-color: #64b5f6;
+    box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.3);
     background-color: rgba(255, 255, 255, 0.12);
   }
 
+  /* 提交按钮：匹配导航栏交互风格 */
   .submit-btn {
-    background-color: #3498db;
-    color: white;
-    border: none;
+    background-color: rgba(100, 181, 246, 0.2);
+    border: 1px solid #64b5f6;
+    color: #64b5f6;
     padding: 0.7rem 2rem;
     border-radius: 8px;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     display: block;
     margin: 0 auto;
+    text-shadow: 0 0 5px rgba(100, 181, 246, 0.5);
   }
 
   .submit-btn:hover {
-    background-color: #2980b9;
+    background-color: rgba(100, 181, 246, 0.4);
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(100, 181, 246, 0.5);
   }
 
   /* 响应式适配：平板及以下 */
   @media (max-width: 768px) {
     .about-us {
       padding: 1rem 0.8rem;
+      padding-top: 70px; /* 适配小屏幕导航栏高度 */
       gap: 2rem;
     }
     .contact-content {
@@ -397,6 +424,9 @@
     .team-card {
       width: calc(50% - 0.3rem);
     }
+    .section-title {
+      font-size: 1.8rem;
+    }
   }
 
   /* 超小屏适配（手机） */
@@ -406,6 +436,7 @@
     }
     .about-us {
       padding: 0.8rem 0.5rem;
+      padding-top: 65px;
       gap: 1.5rem;
     }
     .item-label,
@@ -414,6 +445,12 @@
     }
     .item-label {
       flex: 0 0 85px;
+    }
+    .section-title {
+      font-size: 1.6rem;
+    }
+    .form-title {
+      font-size: 1.1rem;
     }
   }
 </style>
