@@ -1,218 +1,221 @@
 <template>
-  <div class="ring-wrap">
-    <!-- 左箭头 -->
-    <div class="arrow left" @click="handlePrev">‹</div>
-
-    <!-- 3D 场景 -->
-    <div class="scene">
-      <div class="ring" :style="{ transform: `rotateY(${rotateYDeg}deg)` }">
+  <!-- 父容器：占满整个屏幕，用于居中 -->
+  <div class="carousel-center-wrapper">
+    <!-- 3D 圆形轮转容器 -->
+    <div
+      class="carousel-3d-container"
+      @mouseenter="stopAutoPlay"
+      @mouseleave="startAutoPlay"
+    >
+      <!-- 3D 轮转核心容器（整体旋转） -->
+      <div
+        class="carousel-3d-wrapper"
+        :style="{ transform: `rotateY(${rotateDeg}deg)` }"
+      >
         <div
-          v-for="(planet, index) in planetList"
-          :key="planet.name"
-          class="card"
-          :class="{ active: index === current }"
-          :style="getItemStyle(index)"
-          @click="goPlanet(index)"
+          v-for="(item, index) in planetList"
+          :key="index"
+          class="carousel-3d-item"
+          :style="[
+            getItemBaseStyle(index),
+            { pointerEvents: isClickable(index) ? 'auto' : 'none' }
+          ]"
+          :class="{ 'active-item': isClickable(index) }"
+          @click="handlePlanetClick(index)"
         >
-          <img :src="planet.img" :alt="planet.name" />
-
-          <div class="info">
-            <h2>{{ planet.name }}</h2>
-            <p>{{ planet.type }}</p>
-          </div>
+          <img
+            :src="item.img"
+            :alt="item.name"
+            class="carousel-3d-img"
+            @error="handleImgError($event, item.name)"
+          />
+          <div class="planet-name">{{ item.name }}</div>
         </div>
       </div>
-    </div>
 
-    <!-- 右箭头 -->
-    <div class="arrow right" @click="handleNext">›</div>
+      <!-- 手动切换按钮 -->
+      <button class="carousel-btn prev" @click="rotatePrev">←</button>
+      <button class="carousel-btn next" @click="rotateNext">→</button>
+    </div>
   </div>
 </template>
 
 <script setup>
   import { ref, computed, onMounted, onUnmounted } from 'vue';
-  import { useRouter, useRoute } from 'vue-router';
+  import { useRouter } from 'vue-router';
   import { planetList } from '../assets/planetdata.js';
 
+  // 核心响应式变量
   const router = useRouter();
-  const route = useRoute();
-
-  const current = ref(0);
-  const isAnimating = ref(false);
-
-  /* 累计旋转角度 */
-  const rotateYDeg = ref(0);
-
-  let timer = null;
-
-  /* 每个星球之间的角度 */
-  const angle = computed(() => 360 / planetList.length);
-
-  /* 动画锁 */
-  const lock = () => {
-    isAnimating.value = true;
-    setTimeout(() => {
-      isAnimating.value = false;
-    }, 900);
-  };
-
-  /* 上一张 */
-  const handlePrev = () => {
-    if (isAnimating.value) return;
-    lock();
-    current.value = (current.value - 1 + planetList.length) % planetList.length;
-    rotateYDeg.value += angle.value;
-  };
-
-  /* 下一张（顺时针旋转，包括最后一张 → 太阳） */
-  const handleNext = () => {
-    if (isAnimating.value) return;
-    lock();
-    current.value = (current.value + 1) % planetList.length;
-    rotateYDeg.value -= angle.value; // 始终向右
-  };
-
-  /* 自动轮播 */
-  const startAutoPlay = () => {
-    stopAutoPlay();
-    timer = setInterval(handleNext, 3500);
-  };
-
-  const stopAutoPlay = () => {
-    if (timer) {
-      clearInterval(timer);
-      timer = null;
-    }
-  };
-
-  /* 生命周期 */
-  onMounted(() => {
-    const index = Number(route.params.index);
-    if (!Number.isNaN(index) && index >= 0 && index < planetList.length) {
-      current.value = index;
-      rotateYDeg.value = -index * angle.value;
-    }
-    startAutoPlay();
+  const rotateDeg = ref(0); // 容器旋转角度
+  const autoPlayTimer = ref(null); // 自动播放定时器
+  const itemCount = computed(() => planetList.length); // 行星数量（9颗）
+  const singleAngle = computed(() => 360 / itemCount.value); // 每颗行星的间隔角度（40°）
+  const radiusZ = 500; // 圆形轨道半径
+  // 判断行星是否可点击（位于正面±15范围内）
+  const clickThreshold = 15;
+  const isClickable = computed(() => index => {
+    // 计算当前行星相对于容器旋转后的绝对角度
+    const currentAngle = (index * singleAngle.value - rotateDeg.value) % 360;
+    // 归一化角度到 [-180, 180] 范围，方便判断
+    const normalizedAngle =
+      currentAngle > 180 ? currentAngle - 360 : currentAngle;
+    // 角度绝对值小于阈值 → 正中央 → 可点击
+    return Math.abs(normalizedAngle) <= clickThreshold;
   });
 
-  onUnmounted(() => {
-    stopAutoPlay();
-  });
-
-  /* 跳转 Planet 页面 */
-  const goPlanet = index => {
-    stopAutoPlay();
-    router.push(`/planet/${index}`);
-  };
-
-  /* 3D 环样式（保持原有阴影和大小） */
-  const getItemStyle = index => {
-    const offset =
-      (index - current.value + planetList.length) % planetList.length;
-
-    const isActive = offset === 0;
-
+  // 计算每颗行星的基础位置（固定分布在圆形轨道）
+  const getItemBaseStyle = index => {
+    const baseAngle = index * singleAngle.value;
     return {
-      transform: `
-      rotateY(${index * angle.value}deg)
-      translateZ(${isActive ? 680 : 480}px)
-      scale(${isActive ? 1.25 : 0.9})
-    `,
-      opacity: isActive ? 1 : 0.35,
-      pointerEvents: isActive ? 'auto' : 'none'
+      transform: `rotateY(${-baseAngle}deg) translateZ(${radiusZ}px)`,
+      backfaceVisibility: 'hidden'
     };
   };
+
+  // 行星图片点击事件
+  const handlePlanetClick = index => {
+    stopAutoPlay(); // 跳转前暂停轮转
+    router.push({
+      path: `/planet/${index}`
+    });
+  };
+
+  // 单向旋转逻辑
+  const rotateNext = () => {
+    rotateDeg.value -= singleAngle.value;
+  };
+  const rotatePrev = () => {
+    rotateDeg.value += singleAngle.value;
+  };
+
+  // 自动播放逻辑
+  const startAutoPlay = () => {
+    if (autoPlayTimer.value) clearInterval(autoPlayTimer.value);
+    autoPlayTimer.value = setInterval(() => rotateNext(), 5000);
+  };
+  const stopAutoPlay = () => {
+    if (autoPlayTimer.value) clearInterval(autoPlayTimer.value);
+  };
+
+  // 生命周期
+  onMounted(() => startAutoPlay());
+  onUnmounted(() => stopAutoPlay());
 </script>
 
 <style scoped>
-  .ring-wrap {
-    transform-style: preserve-3d;
-    perspective: 2000px; /* 和轮播的透视值一致 */
-    pointer-events: auto;
-  }
-
-  .scene {
-    width: 100%;
-    height: 100%;
-    perspective: 2400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ring {
-    position: relative;
-    width: 1000px;
-    height: 600px;
-    transform-style: preserve-3d;
-    transition: transform 0.9s ease;
-  }
-
-  .card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 420px;
-    height: 260px;
-    margin: -130px -210px;
-    border-radius: 22px;
-    overflow: hidden;
-    transform-style: preserve-3d;
-    transition: all 0.9s ease;
-    cursor: pointer;
-  }
-
-  .card.active {
-    backface-visibility: visible;
-    transform: rotateY(80deg) translateZ(680px) scale(1.25);
-    pointer-events: auto !important;
-    /* 重置盒模型位置，让点击区域和视觉区域重合 */
-    left: 0;
+  /* 全屏居中父容器 */
+  .carousel-center-wrapper {
+    position: fixed;
     top: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../assets/black-sky.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
   }
 
-  .card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  /* 3D 轮转容器 */
+  .carousel-3d-container {
+    width: 400px; /* 行星图片尺寸 */
+    height: 400px;
+    perspective: 2500px; /* 增大透视，适配9颗行星的3D效果 */
+    position: relative;
+    margin-bottom: 100px;
   }
 
-  .info {
+  /* 3D 轮转核心容器 */
+  .carousel-3d-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  /* 行星项样式 */
+  .carousel-3d-item {
     position: absolute;
-    bottom: 18px;
+    top: 0;
+    left: 0;
     width: 100%;
-    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transform-origin: center;
+  }
+
+  /* 正中央可点击行星的高亮样式 */
+  .active-item {
+    cursor: pointer; /* 手型光标提示可点击 */
+  }
+  .active-item .carousel-3d-img {
+    box-shadow:
+      0 0 60px rgba(255, 255, 255, 0.8),
+      inset 0 0 20px rgba(0, 0, 0, 0.5),
+      0 200px 60px -80px rgba(0, 0, 0, 0.5);
+    transform: scale(1.2); /* 中心图片放大突出 */
+  }
+
+  /* 行星图片样式 */
+  .carousel-3d-img {
+    width: 200px; /* 缩小图片尺寸*/
+    height: 200px;
+    border-radius: 50%; /* 圆形图片，适配行星外观 */
+    object-fit: cover;
+    box-shadow:
+      0 0 40px rgba(255, 255, 255, 0.3),
+      inset 0 0 20px rgba(0, 0, 0, 0.5),
+      0 200px 60px -80px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s ease;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+  }
+
+  /* 行星名称样式 */
+  .planet-name {
+    margin-top: 20px;
     color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #000;
+    text-align: center;
+  }
+  .active-item .planet-name {
+    color: #4fc3f7; /* 中心行星名称变色 */
   }
 
-  .info h2 {
-    font-size: 26px;
-  }
-
-  .info p {
-    font-size: 14px;
-    opacity: 0.85;
-  }
-
-  .arrow {
+  /* 切换按钮样式 */
+  .carousel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 64px;
+    width: 70px;
+    height: 70px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
     color: #fff;
+    font-size: 28px;
     cursor: pointer;
     z-index: 10;
-    user-select: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px); /* 毛玻璃效果 */
   }
-
-  .arrow.left {
-    left: 60px;
+  .prev {
+    left: -100px;
   }
-
-  .arrow.right {
-    right: 60px;
+  .next {
+    right: -100px;
+  }
+  .carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.1);
   }
 </style>

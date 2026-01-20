@@ -101,28 +101,23 @@
   const teamMembers = ref([
     {
       name: '徐安',
-      role: '组长',
-    
+      role: '组长'
     },
     {
       name: '王冠清',
-      role: '组员',
-     
+      role: '组员'
     },
     {
       name: '王沐阳',
-      role: '组员',
-     
+      role: '组员'
     },
     {
       name: '王睿毅',
-      role: '组员',
-    
+      role: '组员'
     },
     {
       name: '朱卫东',
-      role: '组员',
-    
+      role: '组员'
     }
   ]);
 

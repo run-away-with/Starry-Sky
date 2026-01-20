@@ -32,10 +32,10 @@
           class="user-avatar"
           @click.stop="toggleUserMenu"
         />
-        <span class="user-name">{{ currentUser }}</span>
+        <span class="user-name">{{ userNickname }}</span>
         <button class="logout-btn" @click.stop="handleLogout">退出</button>
 
-        <!-- 可选：用户下拉菜单（如需扩展） -->
+        <!-- 用户下拉菜单 -->
         <div v-if="showUserMenu" class="user-menu">
           <router-link to="/profile" @click="toggleUserMenu">
             个人中心
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, onUnmounted } from 'vue';
+  import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
   import { useRouter, RouterLink } from 'vue-router';
 
   const router = useRouter();
@@ -59,11 +59,25 @@
   const currentUser = ref(''); // 当前登录用户名
   const showUserMenu = ref(false); // 用户下拉菜单显隐
   const clickOutsideHandler = ref(null); // 点击外部关闭菜单的事件句柄
+  const userInfo = ref({});
+
+  // 统一读取用户信息的方法
+  const loadUserInfo = () => {
+    currentUser.value = localStorage.getItem('currentUser') || '';
+    if (currentUser.value) {
+      const users = JSON.parse(localStorage.getItem('starrySkyUsers') || '{}');
+      userInfo.value = users[currentUser.value] || {};
+    } else {
+      userInfo.value = {};
+    }
+  };
 
   // 计算属性：用户头像（默认+个性化）
   const userAvatar = computed(() => {
     if (!currentUser.value) return 'src/assets/starry-sky-background.jpg'; // 默认头像
-    // 可根据用户名生成个性化头像（示例：固定几个头像循环）
+    // 优先使用个人中心上传的头像
+    if (userInfo.value.avatar) return userInfo.value.avatar;
+    // 备用：按用户名生成个性化头像（保留原有逻辑）
     const avatars = [
       '/src/assets/starry-sky-background.png',
       '/src/assets/black-sky.png',
@@ -73,9 +87,19 @@
     return avatars[index];
   });
 
+  // 计算属性：用户昵称（优先显示昵称）
+  const userNickname = computed(() => {
+    if (!currentUser.value) return '';
+    return userInfo.value.nickname || currentUser.value;
+  });
+
   // 初始化：读取本地存储的登录状态
   onMounted(() => {
-    currentUser.value = localStorage.getItem('currentUser') || '';
+    loadUserInfo();
+
+    // 监听localStorage变化（核心：感知个人中心的修改）
+    window.addEventListener('storage', handleStorageChange);
+
     // 监听点击外部关闭用户菜单
     clickOutsideHandler.value = e => {
       const userInfo = document.querySelector('.user-info');
@@ -84,14 +108,29 @@
       }
     };
     document.addEventListener('click', clickOutsideHandler.value);
+
+    watch(
+      () => router.currentRoute.path,
+      () => {
+        loadUserInfo();
+      }
+    );
   });
 
   // 销毁：移除事件监听
   onUnmounted(() => {
+    window.removeEventListener('storage', handleStorageChange);
     document.removeEventListener('click', clickOutsideHandler.value);
   });
 
-  // 跳转页面（通用方法）
+  // 处理localStorage变化的回调
+  const handleStorageChange = e => {
+    if (e.key === 'starrySkyUsers' || e.key === 'currentUser') {
+      loadUserInfo(); // 重新加载用户信息，触发响应式更新
+    }
+  };
+
+  // 跳转页面
   const navigateTo = path => {
     router.push(path);
   };
