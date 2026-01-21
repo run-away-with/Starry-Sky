@@ -1,6 +1,7 @@
 <template>
   <!-- 父容器：占满整个屏幕，用于居中 -->
   <div class="carousel-center-wrapper">
+    <HeaderNav />
     <!-- 3D 圆形轮转容器 -->
     <div
       class="carousel-3d-container"
@@ -148,7 +149,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
     transform-origin: center;
   }
 

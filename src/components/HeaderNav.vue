@@ -40,7 +40,6 @@
           <router-link to="/profile" @click="toggleUserMenu">
             个人中心
           </router-link>
-          <router-link to="/settings" @click="toggleUserMenu">设置</router-link>
         </div>
       </div>
 

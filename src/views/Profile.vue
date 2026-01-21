@@ -1,5 +1,6 @@
 <template>
   <div class="profile-page">
+    <HeaderNav />
     <div class="profile-container">
       <div class="profile-header">
         <h2>个人中心</h2>
@@ -190,7 +191,7 @@
     grid-column: 1/4;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* 调整为顶部对齐，避免垂直居中导致布局变形 */
     min-height: 100vh;
     padding: 2rem;
     box-sizing: border-box;
@@ -198,7 +199,7 @@
 
   .profile-container {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px; /* 加宽容器，适配左右布局 */
   }
 
   .profile-header {
@@ -232,19 +233,22 @@
     color: #ccc;
   }
 
+  /* 核心布局修改：固定左右排列，非弹性换行 */
   .profile-content {
     display: flex;
-    flex-wrap: wrap;
     gap: 2rem;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-start; /* 左对齐 */
+    align-items: flex-start; /* 顶部对齐 */
+    width: 100%;
   }
 
+  /* 左侧头像卡片：固定宽度 */
   .profile-info-card {
     background-color: rgba(0, 0, 30, 0.5);
     border-radius: 10px;
     padding: 2rem;
-    width: 300px;
+    width: 300px; /* 固定宽度 */
+    flex-shrink: 0; /* 防止缩小 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     text-align: center;
   }
@@ -298,11 +302,13 @@
     margin: 0 0 1rem;
   }
 
+  /* 右侧编辑表单：自适应剩余宽度 */
   .profile-edit-form {
     background-color: rgba(0, 0, 30, 0.5);
     border-radius: 10px;
     padding: 2rem;
-    width: 400px;
+    flex: 1; /* 占满剩余宽度 */
+    min-width: 400px; /* 最小宽度，保证表单可用性 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 
@@ -378,6 +384,7 @@
     background-color: rgba(220, 53, 69, 0.3);
   }
 
+  /* 移动端适配：屏幕变小时恢复垂直排列 */
   @media (max-width: 768px) {
     .profile-content {
       flex-direction: column;
@@ -388,6 +395,7 @@
     .profile-edit-form {
       width: 100%;
       max-width: 400px;
+      min-width: unset; /* 取消最小宽度限制 */
     }
   }
 </style>
